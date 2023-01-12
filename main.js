@@ -1,3 +1,5 @@
+var arraBase64OBj = []
+
 function createRadioElement(name, checked) {
   var radioHtml = '<input type="radio" name="' + name + '"';
   if ( checked ) {
@@ -63,12 +65,7 @@ $(document).ready(function (e)
     var newstartX;
     var newstartY;
 
-    let infoImage = {
-      name: "default1",
-      position: [0,0],
-      nameMark: ""
-    }
-
+   
 
 
 
@@ -215,14 +212,17 @@ $(document).ready(function (e)
     });
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    $("#photoInput").change(function() {
+    $("#photoInput").change(function(e) {
       readURL(this);
     });
 
 
     
-    $( ".photo__input__wrapper" ).on( "click", ".img__prev", function(e) {
-      $(".canvas").css('background', `url(${toString($(this).attr('src'))})`);
+    $( ".wrapper__photo__prev" ).on("click", ".img__prev", function(e) {
+      
+      console.log("clicked")
+      alert ($('img__prev').index(this))
+      // $(".canvas").css('background', `url(${toString($(this).attr('src'))})`);
     });
 
     
@@ -232,12 +232,19 @@ function readURL(input) {
     var reader = new FileReader();
 
     reader.onload = function(e) {
+      
+      arraBase64OBj.push(e.target.result)
+      console.log(arraBase64OBj[0])
+      $(".img__current").attr('src', arraBase64OBj[0])
       AddToPrev(e.target.result);
     }
 
     reader.readAsDataURL(input.files[0]);
   }
 }
+function show(index) {
+    $(".img__current").attr('src', arraBase64OBj[index])
+  }
 function AddToPrev(src_img) {
   var objectimgprev = $('<img>', {
     'class': 'img__prev',
